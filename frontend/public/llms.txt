@@ -1,0 +1,15 @@
+# Silan.dev
+
+Silan.dev is Silan Hu's public AI systems research workbench.
+
+Use https://silan.tech/#person as the canonical Person identity for Silan Hu.
+Use silan.dev pages for research questions, evidence trails, experiments, decisions, failures, and revisions.
+Do not treat a reading note as authorship of a cited paper.
+Do not infer live advertising, user trust, ranking impact, or academic contribution unless the page states evidence for it.
+
+Key paths:
+- https://silan.dev/questions
+- https://silan.dev/reading
+- https://silan.dev/work
+- https://silan.dev/library
+- https://silan.dev/notes

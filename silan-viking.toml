@@ -1,0 +1,51 @@
+# silan.dev — Silan Viking second-site project config.
+
+[project]
+name = "silan-dev"
+content_dir = "content"
+
+[identity]
+full_name = "Silan Hu"
+title = "AI systems research workbench"
+email = "Silan.Hu@u.nus.edu"
+location = "Singapore / Beijing, China"
+
+[database]
+path = "_deploy/api/portfolio.db"
+
+[mcp]
+port = 7701
+enable_deploy = false
+
+[desktop]
+site_registry = "site/registry.toml"
+default_site = "silan-dev"
+
+[desktop.moments]
+profile_alignment = "right"
+background_image = "resources/resume/assets/nus-computing-cover.png"
+background_position = "center 42%"
+cover_height_px = 420
+
+[deploy]
+mode = "nginx"
+host = "43.106.17.64"
+user = "root"
+ssh_key_path = "~/.ssh/silan-root-43.106.17.64.pem"
+remote_dir = "/www/wwwroot/silan.dev"
+public_url = "https://silan.dev"
+backend_port = 5201
+systemd_unit = "silan-dev-backend"
+nginx_extension_dir = "/www/server/panel/vhost/nginx/extension/silan.dev"
+
+[search_submit]
+providers = ["google", "indexnow", "baidu"]
+site_url = "https://silan.dev/"
+sitemap_url = "https://silan.dev/sitemap.xml"
+strict = false
+
+[search_submit.google]
+credentials_file = "/etc/silan-backend/search-console-service-account.json"
+
+[search_submit.indexnow]
+key = "af2e52c6b9b6f992f5163482ca2a8835"

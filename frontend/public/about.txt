@@ -1,0 +1,6 @@
+Silan.dev is Silan Hu's AI systems research workbench.
+
+Canonical identity: https://silan.tech/
+Author entity: https://silan.tech/#person
+Site role: questions, reading trails, experiments, decisions, failures, and revisions.
+Source system: Silan Viking.

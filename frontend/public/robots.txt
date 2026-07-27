@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://silan.dev/sitemap.xml

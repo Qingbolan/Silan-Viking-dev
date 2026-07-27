@@ -1,9 +1,9 @@
 import type {
   ActionRecord,
   KnowledgeAggregate,
-  KnowledgeUnit,
   ProjectSubjectProfile,
   SiteProjection,
+  SubjectRelationship,
   SynthesizedUnit,
 } from "./contracts";
 
@@ -23,9 +23,6 @@ export function validateKnowledgeAggregate(aggregate: KnowledgeAggregate): Valid
   const { unit } = aggregate;
 
   if (unit.developmentState !== "synthesized") {
-    if (unit.developmentState === "captured" && unit.sourceVisibility !== "private") {
-      issues.push(issue("captured-public", "Captured units must stay private.", unit.sourceUri));
-    }
     return result(issues);
   }
 
@@ -137,7 +134,7 @@ export function validateAll(
   ]);
 }
 
-function requiresRole(subjectRelationship: KnowledgeUnit["subjectRelationship"]): boolean {
+function requiresRole(subjectRelationship: SubjectRelationship): boolean {
   return subjectRelationship === "built" || subjectRelationship === "contributed";
 }
 
