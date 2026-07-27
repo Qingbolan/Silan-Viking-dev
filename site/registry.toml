@@ -1,0 +1,11 @@
+[[sites]]
+id = "silan-tech"
+domain = "silan.tech"
+profile = "official-profile"
+config = "site/silan-tech.toml"
+
+[[sites]]
+id = "silan-dev"
+domain = "silan.dev"
+profile = "research-workbench"
+config = "site/silan-dev.toml"

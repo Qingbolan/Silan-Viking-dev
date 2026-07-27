@@ -1,0 +1,43 @@
+[site]
+id = "silan-dev"
+domain = "silan.dev"
+public_origin = "https://silan.dev"
+title = "Silan.dev"
+description = "Silan Hu's public AI systems research workbench."
+profile = "research-workbench"
+profile_revision_id = "profile-silan-dev-2026-07-21"
+
+[workspace]
+id = "silan-viking"
+content_truth = "silan://resources"
+proposal_controlled_public_content = true
+
+[relationship]
+canonical_identity_site = "silan.tech"
+canonical_identity_url = "https://silan.tech/#person"
+site_role = "process-evidence"
+
+[routes]
+work = "/work"
+reading = "/reading"
+notes = "/notes"
+library = "/library"
+questions = "/questions"
+maps = "/maps"
+units = "/units"
+
+[policy]
+include_kinds = ["question", "reading", "decision", "experiment", "failure", "synthesis", "research_map"]
+work_relationships = ["built", "contributed"]
+library_relationships = ["studied", "collected"]
+require_public_gate = true
+require_feature_voice = true
+
+[seo]
+person_canonical_id = "https://silan.tech/#person"
+allow_independent_process_pages = true
+noindex_library_references = true
+
+[deploy]
+target = "silan-dev-production"
+domain = "silan.dev"
