@@ -2,26 +2,11 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowRight,
-  BookOpen,
-  Boxes,
-  FileText,
   GitBranch,
-  Home,
-  Library,
   Mail,
-  Search,
 } from "lucide-react";
 import { featuredUnits, navItems, projects, units, type KnowledgeUnit } from "./data";
 import "./style.css";
-
-const iconByLabel: Record<string, React.ComponentType<{ size?: number }>> = {
-  Home,
-  Work: Boxes,
-  Reading: BookOpen,
-  Notes: FileText,
-  Questions: Search,
-  Library,
-};
 
 function normalizePath(pathname: string) {
   if (pathname.length > 1 && pathname.endsWith("/")) return pathname.slice(0, -1);
@@ -45,15 +30,11 @@ function Shell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="rail-nav" aria-label="Primary">
-          {navItems.map((item) => {
-            const Icon = iconByLabel[item.label] ?? Home;
-            return (
-              <a key={item.href} href={item.href}>
-                <Icon size={18} />
-                <span>{item.label}</span>
-              </a>
-            );
-          })}
+          {navItems.map((item) => (
+            <a key={item.href} href={item.href}>
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         <div className="rail-footer">
@@ -75,7 +56,6 @@ function Shell({ children }: { children: React.ReactNode }) {
 function EvidenceCard({ unit }: { unit: KnowledgeUnit }) {
   return (
     <article className="evidence-card">
-      {unit.media ? <img src={unit.media.src} alt={unit.media.alt} /> : null}
       <div className="card-body">
         <div className="meta-row">
           <span>{unit.kind.replace("_", " ")}</span>
@@ -100,9 +80,10 @@ function EvidenceCard({ unit }: { unit: KnowledgeUnit }) {
           </div>
         </dl>
         <a className="text-link" href={unit.route}>
-          Trace evidence
+          Trace evidence <ArrowRight size={14} />
         </a>
       </div>
+      {unit.media ? <img src={unit.media.src} alt={unit.media.alt} /> : null}
     </article>
   );
 }
@@ -110,69 +91,89 @@ function EvidenceCard({ unit }: { unit: KnowledgeUnit }) {
 function HomePage() {
   return (
     <>
-      <section className="hero-grid">
-        <div className="hero-copy">
-          <p className="section-kicker">AI systems research workbench</p>
-          <h2>Silan Hu builds and studies AI systems.</h2>
-          <p>
+      <section className="intro-block">
+        <h2>Silan Hu builds and studies AI systems.</h2>
+        <ul className="intro-list">
+          <li>
+            I am using <strong>Silan Viking</strong> to turn readings, experiments,
+            decisions, and failures into a public research trail.
+          </li>
+          <li>
+            I keep formal identity, CV, publications, and contact on{" "}
+            <a href="https://silan.tech">silan.tech</a>; this site is for process evidence.
+          </li>
+          <li>
+            I currently focus on AI systems, agent infrastructure, and how generated
+            answers should be evaluated before product claims.
+          </li>
+          <li>
             Here I share what I tested, what changed my mind, and what another
             researcher or engineer can reuse.
-          </p>
-          <div className="current-question">
-            <span>Current question</span>
-            <strong>{units[0].title}</strong>
-          </div>
-          <div className="hero-actions" aria-label="Task entrances">
-            <a href="/questions">
-              See what I am testing <ArrowRight size={16} />
-            </a>
-            <a href="/work">
-              Start with a project <ArrowRight size={16} />
-            </a>
-            <a href="/reading">
-              Follow a paper into practice <ArrowRight size={16} />
-            </a>
-          </div>
-        </div>
-        <div className="system-snapshot" aria-label="Active site context">
-          <p>Active site</p>
-          <strong>silan.dev</strong>
-          <span>profile profile-silan-dev-2026-07-21</span>
-          <span>workspace Silan Viking</span>
-          <span>canonical identity remains silan.tech/#person</span>
-        </div>
+          </li>
+        </ul>
       </section>
 
       <section className="section-block">
         <div className="section-heading">
-          <p className="section-kicker">Evidence begins below the first viewport</p>
-          <h2>Recently tested, revised, or used</h2>
+          <h2>Building AI Systems</h2>
         </div>
-        <div className="card-grid">
-          {featuredUnits.map((unit) => (
-            <EvidenceCard key={unit.sourceUri} unit={unit} />
-          ))}
-        </div>
+        <LinkRows
+          rows={[
+            {
+              href: "/work#silan-viking",
+              title: "Silan Viking",
+              detail: "content workspace, proposal review, relation graph, projection, deploy",
+              marker: "built",
+            },
+            {
+              href: "/work#gem-bench",
+              title: "GEM-Bench",
+              detail: "offline AIR benchmark work and ad-injected answer evaluation",
+              marker: "contributed",
+            },
+            {
+              href: "/maps/research-update-workbench-map",
+              title: "Research update workbench",
+              detail: "reading to test to decision to public revision",
+              marker: "map",
+            },
+          ]}
+        />
       </section>
 
       <section className="section-block">
         <div className="section-heading">
-          <p className="section-kicker">Owned work is separated from studied work</p>
-          <h2>Built or materially contributed</h2>
+          <h2>Reading Into Practice</h2>
         </div>
-        <div className="project-strip">
-          {projects
-            .filter((project) => ["built", "contributed"].includes(project.relationship))
-            .map((project) => (
-              <article key={project.slug} className="compact-row" id={project.slug}>
-                <span>{project.relationship}</span>
-                <strong>{project.title}</strong>
-                <p>{project.summary}</p>
-              </article>
-            ))}
-        </div>
+        <LinkRows
+          rows={featuredUnits.map((unit) => ({
+            href: unit.route,
+            title: unit.title,
+            detail: unit.summary,
+            marker: unit.kind.replace("_", " "),
+          }))}
+        />
       </section>
     </>
+  );
+}
+
+function LinkRows({
+  rows,
+}: {
+  rows: Array<{ href: string; title: string; detail: string; marker: string }>;
+}) {
+  return (
+    <div className="link-rows">
+      {rows.map((row) => (
+        <a className="link-row" href={row.href} key={row.href}>
+          <span>{row.marker}</span>
+          <strong>{row.title}</strong>
+          <p>{row.detail}</p>
+          <ArrowRight size={15} />
+        </a>
+      ))}
+    </div>
   );
 }
 
