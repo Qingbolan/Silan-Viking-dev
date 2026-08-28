@@ -5,7 +5,7 @@ import {
   GitBranch,
   Mail,
 } from "lucide-react";
-import { featuredUnits, navItems, projects, units, type KnowledgeUnit } from "./data";
+import { featuredUnits, navItems, projects, units, type KnowledgeUnit, type ProjectAuthor } from "./data";
 import "./style.css";
 
 function normalizePath(pathname: string) {
@@ -177,6 +177,53 @@ function LinkRows({
   );
 }
 
+function getInitials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
+
+function ProjectAuthorBadge({
+  author,
+  year,
+}: {
+  author?: ProjectAuthor;
+  year?: string;
+}) {
+  const [imageFailed, setImageFailed] = React.useState(false);
+  if (!author && !year) return null;
+
+  return (
+    <div className="project-author-badge" aria-label={author ? `Project author: ${author.name}` : undefined}>
+      {year ? <span className="project-year">{year}</span> : null}
+      {author ? (
+        <span className="project-author">
+          {author.avatarSrc && !imageFailed ? (
+            <img
+              className="project-author-avatar"
+              src={author.avatarSrc}
+              alt=""
+              width="26"
+              height="26"
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageFailed(true)}
+            />
+          ) : (
+            <span className="project-author-fallback" aria-hidden="true">
+              {getInitials(author.name)}
+            </span>
+          )}
+          <span>{author.name}</span>
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
 function ListingPage({
   kicker,
   title,
@@ -212,8 +259,15 @@ function WorkPage() {
       <div className="project-grid">
         {owned.map((project) => (
           <article className="project-card" key={project.slug} id={project.slug}>
-            {project.media ? <img src={project.media.src} alt={project.media.alt} /> : null}
-            <div>
+            {project.media ? (
+              <div className="project-media-frame">
+                <img src={project.media.src} alt={project.media.alt} />
+                <ProjectAuthorBadge author={project.author} year={project.year} />
+              </div>
+            ) : (
+              <ProjectAuthorBadge author={project.author} year={project.year} />
+            )}
+            <div className="project-copy">
               <div className="meta-row">
                 <span>{project.relationship}</span>
                 <span>{project.role}</span>

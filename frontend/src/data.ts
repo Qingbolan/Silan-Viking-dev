@@ -45,11 +45,23 @@ export interface ProjectProfile {
   relationship: SubjectRelationship;
   role: string;
   route: string;
+  year?: string;
+  author?: ProjectAuthor;
   media?: {
     src: string;
     alt: string;
   };
 }
+
+export interface ProjectAuthor {
+  name: string;
+  avatarSrc: string;
+}
+
+export const silanAuthor: ProjectAuthor = {
+  name: "Silan Hu",
+  avatarSrc: "/media/avatar.png",
+};
 
 export const units: KnowledgeUnit[] = [
   {
@@ -167,6 +179,8 @@ export const projects: ProjectProfile[] = [
     relationship: "built",
     role: "architect and implementer",
     route: "/work#silan-viking",
+    year: "2026",
+    author: silanAuthor,
     media: { src: "/media/silan-viking-dashboard.png", alt: "Silan Viking dashboard" },
   },
   {
@@ -177,6 +191,8 @@ export const projects: ProjectProfile[] = [
     relationship: "contributed",
     role: "co-author and benchmark contributor",
     route: "/work#gem-bench",
+    year: "2026",
+    author: silanAuthor,
     media: { src: "/media/gem-bench-map.png", alt: "GEM-Bench benchmark map" },
   },
   {
@@ -187,6 +203,8 @@ export const projects: ProjectProfile[] = [
     relationship: "studied",
     role: "reader",
     route: "/library#llm-auction",
+    year: "2026",
+    author: silanAuthor,
   },
 ];
 
